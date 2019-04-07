@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+    <meta charset="UTF-8">
+    <title>WELCOME</title>
+</head>
+<body>
+	<center><h2><b><u>QFROG PARKING MANAGEMENT SYSTEM</u></b></h2></center>
+    <form method="POST">
+        keyword:<input type="text" name="keyword">&nbsp&nbsp&nbsp&nbsp
+        <button type="submit" >SEARCH</button>&nbsp&nbsp
+        <a href="/add_parking"><h4><b><u>want to add parking ?</u></b></h4></a>
+    </form>
+    
+
+    {% for i in result %}
+
+        <div id={{ i['sr'] }}> <b>{{ i['sector'] }}&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{i['name']}}</b>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{i['loc']}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href={{ '/delete/'+i['sr'] }}>delete</a>&nbsp&nbsp&nbsp&nbsp&nbsp <br></div>
+        
+
+    {% endfor %}
+
+</body>
+</html>
