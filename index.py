@@ -1,6 +1,7 @@
 
 from flask import Flask,render_template,request,send_file
 import pandas as pd
+import webbrowser
 
 
 
@@ -15,7 +16,11 @@ def index():
 @app.route('/',methods=['POST','GET'])
 def index_post():
 
-    searched_query=request.form['keyword']
+    searched_query=''
+    if request.method == 'POST':
+        searched_query=request.form['keyword'].lower()
+    elif flask.request.method == 'GET':
+        searched_query=request.args.get('keyword')
     df=pd.read_csv("./datasets/parking_points.csv")
     df['name']=df['name'].str.lower()
     df['sector']=df['sector'].str.lower()
@@ -53,8 +58,12 @@ def add_parking():
     df.to_csv('./datasets/parking_points.csv')
     return '<alert>RECORD ADDED SUCCESSFULLY</alert><br><br><a href="/add_parking">go back</a>'
 
-
-
+@app.route('/locate/<loc>')
+def locate(loc):
+    x=loc.split(',')[0].split('[')[1]
+    y=loc.split(',')[1].split(']')[0]
+    webbrowser.open_new_tab('http://maps.google.com/maps?q=%s,%s'%(x,y))
+    return ''
 
 def recovery_system(df):
     recover_df=pd.read_csv('./datasets/recovery.csv')
