@@ -1,7 +1,7 @@
 
 from flask import Flask,render_template,request,send_file
 import pandas as pd
-import webbrowser
+#import webbrowser
 
 
 
@@ -28,7 +28,7 @@ def index_post():
 
     result=[]
     for loc,sector,name,sr in zip(temp_df['loc'],temp_df['sector'],temp_df['name'],temp_df['sr']):
-        result.append({'sr':str(sr),'loc':loc,'name':name,'sector':sector})
+        result.append({'sr':str(sr),'x':loc.split(',')[0].split('[')[1],'y':loc.split(',')[1].split(']')[0],'name':name,'sector':sector})
     return render_template('welcome.html',result=result)
 
 @app.route('/delete/<sr_key>')
@@ -58,13 +58,14 @@ def add_parking():
     df.to_csv('./datasets/parking_points.csv')
     return '<alert>RECORD ADDED SUCCESSFULLY</alert><br><br><a href="/add_parking">go back</a>'
 
+'''
 @app.route('/locate/<loc>')
 def locate(loc):
     x=loc.split(',')[0].split('[')[1]
     y=loc.split(',')[1].split(']')[0]
     webbrowser.open_new_tab('http://maps.google.com/maps?q=%s,%s'%(x,y))
     return ''
-
+'''
 def recovery_system(df):
     recover_df=pd.read_csv('./datasets/recovery.csv')
     recover_df=recover_df.append(df)
